@@ -68,7 +68,7 @@ require (
 	github.com/coreos/go-oidc/v3 v3.0.0
 	github.com/coreos/go-semver v0.3.0
 	github.com/creasty/defaults v1.5.2
-	github.com/crewjam/saml v0.4.5
+	github.com/crewjam/saml v0.4.10
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/docker/distribution v2.8.1+incompatible
 	github.com/docker/docker v20.10.17+incompatible
@@ -116,7 +116,7 @@ require (
 	github.com/rancher/rancher/pkg/client v0.0.0
 	github.com/rancher/rdns-server v0.0.0-20180802070304-bf662911db6a
 	github.com/rancher/remotedialer v0.2.6-0.20220624190122-ea57207bf2b8
-	github.com/rancher/rke v1.4.3-rc4
+	github.com/rancher/rke v1.4.3-rc6
 	github.com/rancher/steve v0.0.0-20230120232010-53fbb87f5968
 	github.com/rancher/system-upgrade-controller/pkg/apis v0.0.0-20210727200656-10b094e30007
 	github.com/rancher/wrangler v1.0.1-0.20230110004444-57f14d386afb
@@ -212,6 +212,7 @@ require (
 	github.com/fatih/color v1.13.0 // indirect
 	github.com/felixge/httpsnoop v1.0.1 // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
+	github.com/fvbommel/sortorder v1.0.1 // indirect
 	github.com/go-asn1-ber/asn1-ber v1.5.3 // indirect
 	github.com/go-errors/errors v1.0.1 // indirect
 	github.com/go-gorp/gorp/v3 v3.0.2 // indirect
@@ -223,7 +224,7 @@ require (
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
-	github.com/golang-jwt/jwt/v4 v4.2.0 // indirect
+	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/google/btree v1.0.1 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
@@ -299,7 +300,7 @@ require (
 	github.com/shopspring/decimal v1.2.0 // indirect
 	github.com/smartystreets/goconvey v1.7.2 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
-	github.com/spf13/cobra v1.5.0 // indirect
+	github.com/spf13/cobra v1.5.0
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/objx v0.5.0 // indirect
 	github.com/valyala/fastjson v1.6.3 // indirect
