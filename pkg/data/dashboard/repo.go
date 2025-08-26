@@ -84,5 +84,37 @@ func addRepos(wrangler *wrangler.Context) error {
 		}
 	}
 
+	if err := addOrUpdateHTTPRepo(wrangler, "turtles", "https://rancher.github.io/turtles"); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func addOrUpdateHTTPRepo(wrangler *wrangler.Context, repoName, repoURL string) error {
+	if repoURL == "" {
+		return nil
+	}
+	repo, err := wrangler.Catalog.ClusterRepo().Get(repoName, metav1.GetOptions{})
+	if apierrors.IsNotFound(err) {
+		_, err = wrangler.Catalog.ClusterRepo().Create(&v1.ClusterRepo{
+			ObjectMeta: metav1.ObjectMeta{
+				Name: repoName,
+			},
+			Spec: v1.RepoSpec{
+				URL: repoURL,
+			},
+		})
+		return err
+	} else if err != nil {
+		return err
+	}
+	if repo.Spec.URL != repoURL || repo.Spec.GitRepo != "" || repo.Spec.GitBranch != "" {
+		repo.Spec.URL = repoURL
+		repo.Spec.GitRepo = ""
+		repo.Spec.GitBranch = ""
+		_, err = wrangler.Catalog.ClusterRepo().Update(repo)
+		return err
+	}
 	return nil
 }

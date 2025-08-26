@@ -237,6 +237,8 @@ var (
 	// RancherProvisioningCAPIVersion is the exact version of the cluster api controller that Rancher will install.
 	RancherProvisioningCAPIVersion = NewSetting("rancher-provisioning-capi-version", "")
 
+	RancherTurtlesVersion = NewSetting("rancher-turtles-version", "")
+
 	// RKE2ChartDefaultBranch represents the default branch for the RKE2 charts repo.
 	RKE2ChartDefaultBranch = NewSetting("rke2-chart-default-branch", "main")
 

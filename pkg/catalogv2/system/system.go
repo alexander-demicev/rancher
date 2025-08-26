@@ -271,7 +271,11 @@ func (m *Manager) Remove(namespace, releaseName string) {
 // If a release with the version to be installed is already installed, or is pending install, upgrade or rollback, this
 // does nothing.
 func (m *Manager) install(namespace, chartName, releaseName, minVersion, exactVersion string, values map[string]interface{}, takeOwnership bool, installImageOverride string) error {
-	index, err := m.content.Index("", "rancher-charts", "", true)
+	repoName := "rancher-charts"
+	if chartName == "rancher-turtles" {
+		repoName = "turtles"
+	}
+	index, err := m.content.Index("", repoName, "", true)
 	if err != nil {
 		return err
 	}
@@ -363,7 +367,7 @@ func (m *Manager) install(namespace, chartName, releaseName, minVersion, exactVe
 		return err
 	}
 
-	op, err := m.operation.Upgrade(m.ctx, installUser, "", "rancher-charts", bytes.NewBuffer(upgrade), installImageOverride)
+	op, err := m.operation.Upgrade(m.ctx, installUser, "", repoName, bytes.NewBuffer(upgrade), installImageOverride)
 	if err != nil {
 		return err
 	}

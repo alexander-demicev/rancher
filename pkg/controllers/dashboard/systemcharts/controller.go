@@ -51,10 +51,12 @@ var (
 		chart.WebhookChartName:           "rancher/rancher-webhook",
 		chart.ProvisioningCAPIChartName:  "rancher/mirrored-cluster-api-controller",
 		chart.RemoteDialerProxyChartName: "rancher/remotedialer-proxy",
+		chart.TurtlesChartName:           "rancher/turtles",
 	}
 	watchedSettings = map[string]struct{}{
 		settings.RancherWebhookVersion.Name:               {},
 		settings.RancherProvisioningCAPIVersion.Name:      {},
+		settings.RancherTurtlesVersion.Name:               {},
 		settings.SystemDefaultRegistry.Name:               {},
 		settings.ShellImage.Name:                          {},
 		settings.SystemUpgradeControllerChartVersion.Name: {},
@@ -168,7 +170,7 @@ func (h *handler) onRepo(key string, repo *catalog.ClusterRepo) (*catalog.Cluste
 		// chart definition, but is now part of the chart definition
 		minVersion := chartDef.MinVersionSetting.Get()
 		exactVersion := chartDef.ExactVersionSetting.Get()
-		takeOwnership := chartDef.ChartName == chart.WebhookChartName || chartDef.ChartName == chart.ProvisioningCAPIChartName
+		takeOwnership := chartDef.ChartName == chart.WebhookChartName || chartDef.ChartName == chart.ProvisioningCAPIChartName || chartDef.ChartName == chart.TurtlesChartName
 		if err := h.manager.Ensure(chartDef.ReleaseNamespace, chartDef.ChartName, chartDef.ReleaseName, minVersion, exactVersion, values, takeOwnership, installImageOverride); err != nil {
 			return repo, err
 		}
@@ -235,17 +237,24 @@ func (h *handler) getChartsToInstall() []*chart.Definition {
 			ReleaseName:         chart.ProvisioningCAPIChartName,
 			ChartName:           chart.ProvisioningCAPIChartName,
 			ExactVersionSetting: settings.RancherProvisioningCAPIVersion,
+			Enabled:             func() bool { return false },
+			Uninstall:           true,
+			RemoveNamespace:     true,
+		},
+		{
+			ReleaseNamespace:    namespace.TurtlesNamespace,
+			ReleaseName:         chart.TurtlesChartName,
+			ChartName:           chart.TurtlesChartName,
+			ExactVersionSetting: settings.RancherTurtlesVersion,
 			Values: func() map[string]interface{} {
 				values := map[string]interface{}{}
 				// add priority class value
-				h.setPriorityClass(values, chart.ProvisioningCAPIChartName)
-				// get custom values for the rancher-provisioning-capi
-				configMapValues := h.getChartValues(chart.ProvisioningCAPIChartName)
+				h.setPriorityClass(values, chart.TurtlesChartName)
+				// get custom values for the rancher-turtles
+				configMapValues := h.getChartValues(chart.TurtlesChartName)
 				return data.MergeMaps(values, configMapValues)
 			},
-			Enabled:         func() bool { return features.EmbeddedClusterAPI.Enabled() },
-			Uninstall:       !features.EmbeddedClusterAPI.Enabled(),
-			RemoveNamespace: !features.EmbeddedClusterAPI.Enabled(),
+			Enabled: func() bool { return true },
 		},
 		{
 			ReleaseNamespace: namespace.System,
